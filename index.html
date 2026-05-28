@@ -511,7 +511,8 @@
     <button class="filter-btn active" data-filter="all">All <span class="count" id="cnt-all">24</span></button>
     <button class="filter-btn" data-filter="tipsport">Tipsport liga <span class="count">12</span></button>
     <button class="filter-btn" data-filter="shl">Tipos SHL <span class="count">12</span></button>
-    <button class="filter-btn" id="resetBtn" style="margin-left:auto;color:#b94a2f;border-color:#f3cfc1;">↺ Reset selections</button>
+    <button class="filter-btn" id="shareBtn" style="margin-left:auto;color:#1c6fb6;border-color:#bfd6ea;background:#f1f7fc;">🔗 Copy share link</button>
+    <button class="filter-btn" id="resetBtn" style="color:#b94a2f;border-color:#f3cfc1;">↺ Reset</button>
   </div>
 
   <section class="camera-summary" id="cameraSummary">
@@ -558,16 +559,16 @@ const arenas = [
   // ---------- Tipsport liga (12) ----------
   { tier:"tipsport", name:"Aréna Ondreja Nepelu",          city:"Bratislava",         addr:"Odbojárov 9",              cap:"10 055",  team:"HC Slovan Bratislava",         lat:48.16205, lng:17.13731, wiki:"Zimný_štadión_Ondreja_Nepelu", official:"https://www.hcslovan.sk" },
   { tier:"tipsport", name:"Steel Aréna",                    city:"Košice",             addr:"Nerudova 12",              cap:"8 347",   team:"HC Košice",                    lat:48.72342, lng:21.26108, wiki:"Steel_Aréna",                 official:"https://www.hckosice.sk" },
-  { tier:"tipsport", name:"Zimný štadión mesta Poprad",     city:"Poprad",             addr:"Štefánikova 890/46",       cap:"4 500",   team:"HK Poprad",                    lat:49.06058, lng:20.31118, wiki:"Zimný_štadión_mesta_Poprad",  official:"https://www.hkpoprad.sk" },
+  { tier:"tipsport", name:"Zimný štadión mesta Poprad",     city:"Poprad",             addr:"Štefánikova 890/46",       cap:"4 500",   team:"HK Poprad",                    lat:49.06058, lng:20.31118, wiki:"Zimný_štadión_mesta_Poprad",  official:"https://www.hkpoprad.sk", overrides:{"Behind goal right":"D-Line"} },
   { tier:"tipsport", name:"Spiš Aréna",                     city:"Spišská Nová Ves",   addr:"T. Vansovej 1",            cap:"5 458",   team:"HK Spišská Nová Ves",          lat:48.94680, lng:20.56182, wiki:"Spiš_Aréna",                  official:"https://www.hksnv.sk" },
-  { tier:"tipsport", name:"Zimný štadión Michalovce",       city:"Michalovce",         addr:"Športová 1",               cap:"4 000",   team:"HK Dukla Michalovce",          lat:48.75494, lng:21.91812, wiki:"Zimný_štadión_v_Michalovciach", official:"https://www.hkmichalovce.sk" },
-  { tier:"tipsport", name:"TITAN Aréna (ZŠ Liptovský Mikuláš)", city:"Liptovský Mikuláš", addr:"Partizánov 14",        cap:"3 680",   team:"MHk 32 Liptovský Mikuláš",     lat:49.08321, lng:19.61326, wiki:"Zimný_štadión_v_Liptovskom_Mikuláši", official:"https://mhk32.sk" },
+  { tier:"tipsport", name:"Zimný štadión Michalovce",       city:"Michalovce",         addr:"Športová 1",               cap:"4 000",   team:"HK Dukla Michalovce",          lat:48.75494, lng:21.91812, wiki:"Zimný_štadión_v_Michalovciach", official:"https://www.hkmichalovce.sk", overrides:{"Behind goal right":"D-Line","Behind goal left":"D-Line"} },
+  { tier:"tipsport", name:"TITAN Aréna (ZŠ Liptovský Mikuláš)", city:"Liptovský Mikuláš", addr:"Partizánov 14",        cap:"3 680",   team:"MHk 32 Liptovský Mikuláš",     lat:49.08321, lng:19.61326, wiki:"Zimný_štadión_v_Liptovskom_Mikuláši", official:"https://mhk32.sk", overrides:{"Behind goal right":"D-Line"} },
   { tier:"tipsport", name:"ICE Aréna Prešov",               city:"Prešov",             addr:"Pod Kalváriou 50",         cap:"6 575",   team:"HC Prešov",                    lat:48.99325, lng:21.24176, wiki:"Zimný_štadión_v_Prešove",     official:"https://www.hcpresov.sk" },
-  { tier:"tipsport", name:"Nitra Aréna",                    city:"Nitra",              addr:"Jesenského 2",             cap:"3 600",   team:"HK Nitra",                     lat:48.31070, lng:18.09462, wiki:"Nitra_Aréna",                 official:"https://www.hknitra.sk" },
+  { tier:"tipsport", name:"Nitra Aréna",                    city:"Nitra",              addr:"Jesenského 2",             cap:"3 600",   team:"HK Nitra",                     lat:48.31070, lng:18.09462, wiki:"Nitra_Aréna",                 official:"https://www.hknitra.sk", overrides:{"Behind goal left":"D-Line"} },
   { tier:"tipsport", name:"Zimný štadión Pavla Demitru",    city:"Trenčín",            addr:"Považská 34",              cap:"6 150",   team:"HK Dukla Trenčín",             lat:48.89181, lng:18.04282, wiki:"Zimný_štadión_Pavla_Demitru", official:"https://www.dukla.sk" },
   { tier:"tipsport", name:"Zimný štadión Zvolen",           city:"Zvolen",             addr:"Pod Dráhami 21",           cap:"6 300",   team:"HKM Zvolen",                   lat:48.57510, lng:19.12815, wiki:"Zimný_štadión_vo_Zvolene",    official:"https://www.hkmzvolen.sk" },
   { tier:"tipsport", name:"Zimný štadión Banská Bystrica",  city:"Banská Bystrica",    addr:"Hronské predmestie 4",     cap:"2 841",   team:"HC '05 Banská Bystrica",       lat:48.73891, lng:19.15348, wiki:"Zimný_štadión_v_Banskej_Bystrici", official:"https://www.hcbb.sk" },
-  { tier:"tipsport", name:"Garmin Arena (ZŠ Žilina)",       city:"Žilina",             addr:"Športová 50",              cap:"6 200",   team:"MsHK Žilina",                  lat:49.22360, lng:18.73962, wiki:"Zimný_štadión_v_Žiline",      official:"https://www.mshkzilina.sk" },
+  { tier:"tipsport", name:"Garmin Arena (ZŠ Žilina)",       city:"Žilina",             addr:"Športová 50",              cap:"6 200",   team:"MsHK Žilina",                  lat:49.22360, lng:18.73962, wiki:"Zimný_štadión_v_Žiline",      official:"https://www.mshkzilina.sk", overrides:{"Behind goal left":"D-Line"} },
 
   // ---------- Tipos SHL (12) ----------
   { tier:"shl", name:"Hant Arena Skalica",                  city:"Skalica",            addr:"Clementisova 50",          cap:"4 100",   team:"HK Skalica",                   lat:48.84540, lng:17.22270, wiki:"Hant_Arena",                  official:"https://hkskalica.sk" },
@@ -608,12 +609,14 @@ const cameraConfig = {
   }
 };
 
-function renderCameraSection(tier, arenaIdx) {
+function renderCameraSection(tier, arenaIdx, arena) {
   const cfg = cameraConfig[tier];
+  const overrides = (arena && arena.overrides) || {};
   const rows = cfg.positions.map((p, posIdx) => {
+    const activeOpt = overrides[p.name] || p.defaultOpt;
     const typeHtml = p.opts
       ? `<div class="cam-types">${p.opts.map(opt =>
-            `<button type="button" class="cam-pill ${opt === p.defaultOpt ? 'active' : ''}" data-type="${opt}">${opt}</button>`
+            `<button type="button" class="cam-pill ${opt === activeOpt ? 'active' : ''}" data-type="${opt}">${opt}</button>`
          ).join('')}</div>`
       : `<span class="cam-fixed">${p.fixed}</span>`;
     return `
@@ -699,7 +702,7 @@ function renderArena(a, idx) {
         <dt>Capacity</dt><dd>~${a.cap}</dd>
         <dt>Address</dt><dd>${a.addr}</dd>
       </dl>
-      ${renderCameraSection(a.tier, idx)}
+      ${renderCameraSection(a.tier, idx, a)}
       <div class="links">
         <a class="link-btn link-maps" href="${gmapsUrl(a)}" target="_blank" rel="noopener" title="Open Google Maps — Photos tab in the left panel">
           <svg><use href="#ico-map"/></svg>
@@ -784,11 +787,119 @@ function loadState() {
 function resetState() {
   if (!confirm('Reset all camera selections to defaults? This cannot be undone.')) return;
   try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  // Also strip URL hash so we get clean defaults
+  history.replaceState(null, '', location.pathname + location.search);
   location.reload();
 }
 
-// Load any saved state, then recalc summary based on what's now showing
-loadState();
+// ============================================================
+// URL STATE SHARING — encode current state into URL hash
+// so the link can be shared and others see the same setup
+// ============================================================
+function buildOverridesFromDOM() {
+  // Only save what differs from defaults — keeps URL short
+  const result = {};
+  document.querySelectorAll('#arenaGrid .arena').forEach((arenaEl, arenaIdx) => {
+    const tier = arenaEl.dataset.tier;
+    const tierCfg = cameraConfig[tier];
+    const arenaData = arenas[arenaIdx];
+    const baselineOverrides = (arenaData && arenaData.overrides) || {};
+    arenaEl.querySelectorAll('.cam-row').forEach((row, posIdx) => {
+      const posCfg = tierCfg.positions[posIdx];
+      const qtyVal = parseInt(row.querySelector('.cam-qty').value || 0, 10);
+      const activePill = row.querySelector('.cam-pill.active');
+      const typeVal = activePill ? activePill.dataset.type : null;
+
+      const baselineType = baselineOverrides[posCfg.name] || posCfg.defaultOpt || null;
+      const qtyChanged = qtyVal !== posCfg.qty;
+      const typeChanged = typeVal && baselineType && typeVal !== baselineType;
+
+      if (qtyChanged || typeChanged) {
+        if (!result[arenaIdx]) result[arenaIdx] = {};
+        result[arenaIdx][posIdx] = {};
+        if (qtyChanged) result[arenaIdx][posIdx].q = qtyVal;
+        if (typeChanged) result[arenaIdx][posIdx].t = typeVal;
+      }
+    });
+  });
+  return result;
+}
+
+function encodeToUrl() {
+  const overrides = buildOverridesFromDOM();
+  if (Object.keys(overrides).length === 0) {
+    // No diffs — strip hash
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    return;
+  }
+  try {
+    const json = JSON.stringify(overrides);
+    const b64 = btoa(unescape(encodeURIComponent(json)));
+    history.replaceState(null, '', location.pathname + location.search + '#s=' + b64);
+  } catch (e) {}
+}
+
+function loadFromUrl() {
+  const hash = location.hash;
+  if (!hash.startsWith('#s=')) return false;
+  let overrides;
+  try {
+    const b64 = hash.slice(3);
+    const json = decodeURIComponent(escape(atob(b64)));
+    overrides = JSON.parse(json);
+  } catch (e) { return false; }
+
+  const allArenas = document.querySelectorAll('#arenaGrid .arena');
+  Object.entries(overrides).forEach(([arenaIdxStr, positions]) => {
+    const arenaEl = allArenas[parseInt(arenaIdxStr, 10)];
+    if (!arenaEl) return;
+    const rows = arenaEl.querySelectorAll('.cam-row');
+    Object.entries(positions).forEach(([posIdxStr, vals]) => {
+      const row = rows[parseInt(posIdxStr, 10)];
+      if (!row) return;
+      if (typeof vals.q === 'number') {
+        row.querySelector('.cam-qty').value = vals.q;
+      }
+      if (vals.t) {
+        const pills = row.querySelectorAll('.cam-pill');
+        let matched = false;
+        pills.forEach(p => { if (p.dataset.type === vals.t) matched = true; });
+        if (matched) {
+          pills.forEach(p => p.classList.remove('active'));
+          pills.forEach(p => { if (p.dataset.type === vals.t) p.classList.add('active'); });
+        }
+      }
+    });
+    const section = arenaEl.querySelector('.cameras');
+    if (section) updateCamTotal(section);
+  });
+  return true;
+}
+
+// Copy current page URL (with state hash) to clipboard
+function copyShareLink() {
+  encodeToUrl(); // refresh hash with latest state
+  const url = location.href;
+  const btn = document.getElementById('shareBtn');
+  const originalText = btn.innerHTML;
+  navigator.clipboard.writeText(url).then(() => {
+    btn.innerHTML = '✓ Copied!';
+    btn.style.color = '#1a7f37';
+    btn.style.borderColor = '#a4d5b3';
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 1800);
+  }).catch(() => {
+    // Fallback: select an invisible textarea so user can manually copy
+    prompt('Copy this link:', url);
+  });
+}
+
+// Load priority: URL hash > localStorage > defaults
+const loadedFromUrl = loadFromUrl();
+if (!loadedFromUrl) loadState();
 
 // ============================================================
 // GLOBAL CAMERA SUMMARY — total per camera type across all arenas
@@ -829,6 +940,7 @@ grid.addEventListener('click', (e) => {
     pill.classList.add('active');
     recalcSummary();
     saveState();
+    encodeToUrl();
   }
 });
 grid.addEventListener('input', (e) => {
@@ -837,8 +949,14 @@ grid.addEventListener('input', (e) => {
     updateCamTotal(section);
     recalcSummary();
     saveState();
+    encodeToUrl();
   }
 });
+
+// Initial URL sync — if loaded from URL, persist into localStorage too
+if (loadedFromUrl) saveState();
+// Recalc summary now that state may have been applied
+recalcSummary();
 
 // ============================================================
 // FILTER & SEARCH
@@ -888,6 +1006,8 @@ searchInput.addEventListener('input', applyFilters);
 
 // Reset button — clear all saved selections
 document.getElementById('resetBtn').addEventListener('click', resetState);
+// Share button — copy current state URL to clipboard
+document.getElementById('shareBtn').addEventListener('click', copyShareLink);
 </script>
 </body>
 </html>
