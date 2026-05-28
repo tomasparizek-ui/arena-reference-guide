@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<title>Arena Reference Guide — Tipsport liga & Tipos SHL</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --tipsport-blue: #1c6fb6;
+    --tipsport-bg:   #eaf3fb;
+    --shl-blue:      #1c3580;
+    --shl-bg:        #ecf0fa;
+    --text:          #111827;
+    --muted:         #6b7280;
+    --border:        #e5e7eb;
+    --page-bg:       #f5f7fa;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--page-bg);
+    color: var(--text);
+    line-height: 1.45;
+  }
+
+  /* ========== Page layout ========== */
+  .page {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 28px 24px 40px;
+  }
+  header.top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  header.top h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.4px;
+  }
+  header.top h1 .accent { color: var(--tipsport-blue); }
+  header.top p.subtitle {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* ========== Toolbar ========== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 22px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 120ms;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .filter-btn .count {
+    font-size: 11.5px;
+    background: #eef1f5;
+    color: var(--muted);
+    padding: 1px 7px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .filter-btn:hover { border-color: #9aa3b3; }
+  .filter-btn.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+  .filter-btn.active .count { background: #3d4350; color: #d2d8e1; }
+
+  .toolbar-search {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    width: 250px;
+    max-width: 100%;
+  }
+  .toolbar-search input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 13px;
+    color: var(--text);
+    min-width: 0;
+  }
+  .toolbar-search svg { width: 14px; height: 14px; opacity: 0.5; }
+
+  /* ========== Tip banner ========== */
+  .tip {
+    background: linear-gradient(180deg, #fff8e6 0%, #fff 100%);
+    border: 1px solid #f3e2a9;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 22px;
+    font-size: 12.5px;
+    color: #5c4a16;
+    line-height: 1.5;
+  }
+  .tip strong { color: #3f3208; }
+
+  /* ========== Grid ========== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px)  { .grid { grid-template-columns: 1fr; } }
+
+  /* ========== Arena card ========== */
+  .arena {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 16px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 120ms, transform 120ms;
+  }
+  .arena:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-1px); }
+
+  .arena-tier {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 4px 9px 4px 6px;
+    border-radius: 999px;
+    align-self: flex-start;
+    margin-bottom: 10px;
+  }
+  .arena-tier.tipsport { background: var(--tipsport-bg); color: var(--tipsport-blue); }
+  .arena-tier.shl      { background: var(--shl-bg);      color: var(--shl-blue); }
+  .arena-tier svg { width: 18px; height: 22px; flex-shrink: 0; }
+
+  .arena-name {
+    font-size: 16.5px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.2px;
+    line-height: 1.25;
+  }
+  .arena-city {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 12px 0;
+  }
+  .arena-city strong { color: var(--text); font-weight: 600; }
+
+  .meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 10px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .meta dt { color: var(--muted); font-weight: 500; }
+  .meta dd { margin: 0; color: var(--text); font-weight: 500; }
+
+  /* ========== Camera setup ========== */
+  .cameras {
+    margin: 0 0 12px 0;
+    padding: 10px 12px 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #fafbfc;
+  }
+  .cameras-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 11.5px;
+  }
+  .cameras-title {
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-size: 10.5px;
+  }
+  .cameras-total {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .cameras-total .total-num { font-weight: 700; color: var(--text); }
+  .cameras-total.ok   { color: #1a7f37; }
+  .cameras-total.ok   .total-num { color: #1a7f37; }
+  .cameras-total.warn { color: #b45309; }
+  .cameras-total.warn .total-num { color: #b45309; }
+
+  .cam-row {
+    display: grid;
+    grid-template-columns: 108px 32px 1fr;
+    align-items: center;
+    gap: 4px 8px;
+    padding: 4px 0;
+    font-size: 11px;
+    border-bottom: 1px dashed #eaecef;
+  }
+  .cam-row:last-child { border-bottom: none; }
+  .cam-pos {
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: -0.1px;
+    line-height: 1.2;
+  }
+  .cam-qty {
+    width: 32px;
+    text-align: center;
+    padding: 2px 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    background: #fff;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .cam-qty:focus { outline: none; border-color: var(--tipsport-blue); }
+  .cam-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    justify-content: flex-end;
+  }
+  .cam-pill {
+    background: #fff;
+    border: 1px solid #d6dae0;
+    color: var(--muted);
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 100ms;
+    font-family: inherit;
+  }
+  .cam-pill:hover { border-color: #98a0ac; color: var(--text); }
+  .arena[data-tier="tipsport"] .cam-pill.active {
+    background: var(--tipsport-blue); color: #fff; border-color: var(--tipsport-blue);
+  }
+  .arena[data-tier="shl"] .cam-pill.active {
+    background: var(--shl-blue); color: #fff; border-color: var(--shl-blue);
+  }
+  .cam-fixed {
+    font-size: 10.5px;
+    color: #374151;
+    font-weight: 600;
+    padding: 2px 7px;
+    background: #eef0f3;
+    border-radius: 999px;
+    justify-self: end;
+  }
+
+  /* ========== Link buttons ========== */
+  .links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 120ms;
+    border: 1px solid;
+    line-height: 1;
+  }
+  .link-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .link-btn .lbl-sub {
+    font-weight: 400;
+    font-size: 10.5px;
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .link-maps   { background: #eaf6ee; color: #1a7f37; border-color: #c6e3cf; }
+  .link-maps:hover   { background: #d8efe0; }
+
+  .link-photos { background: #fff2dc; color: #a3590a; border-color: #f5d9a8; }
+  .link-photos:hover { background: #fce2bd; }
+
+  .link-wiki   { background: #ecf0f4; color: #4a5560; border-color: #d2dae3; }
+  .link-wiki:hover   { background: #dde3eb; }
+
+  .link-search { background: #ecf1fb; color: #1d3a8a; border-color: #c9d6f1; }
+  .link-search:hover { background: #d8e1f5; }
+
+  /* ========== Logo SVGs (mini) ========== */
+  .logo-tipsport-mini, .logo-shl-mini {
+    display: inline-block;
+  }
+
+  /* ========== Footer ========== */
+  footer.bottom {
+    margin-top: 32px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  footer.bottom strong { color: var(--text); }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* Hide when filtered out */
+  .arena.hidden { display: none; }
+
+  /* ========== Camera summary (top) ========== */
+  .camera-summary {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 18px 14px 18px;
+    margin: 0 0 18px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 22px;
+  }
+  .summary-header {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    margin-right: 4px;
+  }
+  .summary-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .summary-subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-weight: 500;
+  }
+  .summary-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .summary-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 6px 5px 12px;
+    background: #f5f6f8;
+    border: 1px solid #e8ebef;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    transition: background 120ms;
+  }
+  .summary-chip:hover { background: #eef0f3; }
+  .chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: -2px;
+  }
+  .chip-name { letter-spacing: -0.1px; }
+  .chip-count {
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text);
+    min-width: 26px;
+    text-align: center;
+  }
+  .summary-chip[data-zero="true"] {
+    opacity: 0.55;
+  }
+  .summary-chip[data-zero="true"] .chip-count {
+    color: var(--muted);
+    background: #f3f4f6;
+  }
+
+  .dot-s-wide  { background: #1c6fb6; }
+  .dot-d-line  { background: #e07a1d; }
+  .dot-vlinep  { background: #2f8a3e; }
+  .dot-s-point { background: #7349b8; }
+  .dot-micro   { background: #c0395b; }
+</style>
+</head>
+<body>
+
+<!-- SVG defs (reused logos) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="logo-tipsport" viewBox="0 0 90 110">
+      <defs>
+        <linearGradient id="tl-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2a8edb"/>
+          <stop offset="100%" stop-color="#1c6fb6"/>
+        </linearGradient>
+      </defs>
+      <path d="M 8 30 L 45 22 L 82 30 L 80 78 L 45 100 L 10 78 Z"
+            fill="url(#tl-blue)" stroke="#ffffff" stroke-width="2.8" stroke-linejoin="round"/>
+      <polygon points="18,8 45,3 36,42" fill="#ffffff"/>
+      <polygon points="45,3 64,12 50,40" fill="#162d4f"/>
+      <polygon points="64,12 88,5 78,55 50,75 38,55 50,40" fill="#ff6f1c"/>
+    </symbol>
+    <symbol id="logo-shl" viewBox="0 0 100 110">
+      <defs>
+        <linearGradient id="shl-mid" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2c4ba8"/>
+          <stop offset="100%" stop-color="#1c3580"/>
+        </linearGradient>
+        <linearGradient id="shl-top" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#22388f"/>
+          <stop offset="100%" stop-color="#172b6e"/>
+        </linearGradient>
+      </defs>
+      <path d="M 8 8 L 92 8 L 92 70 L 50 102 L 8 70 Z"
+            fill="url(#shl-mid)" stroke="#ffffff" stroke-width="2.8" stroke-linejoin="round"/>
+      <path d="M 10 9.5 L 90 9.5 L 90 32 L 10 32 Z" fill="url(#shl-top)"/>
+      <text x="50" y="26" font-family="Arial Black, Arial, sans-serif" font-weight="900"
+            font-size="13" fill="#ffffff" text-anchor="middle" letter-spacing="2">TIPOS</text>
+      <line x1="12" y1="32" x2="88" y2="32" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="50" y="64" font-family="Impact, Arial Black, sans-serif" font-weight="900"
+            font-size="34" fill="#ffffff" text-anchor="middle" letter-spacing="-1">SHL</text>
+      <path d="M 18 68 Q 50 96 82 68 L 80 80 L 50 102 L 20 80 Z" fill="#d92632"/>
+      <g transform="translate(50,84)" fill="#ffffff">
+        <rect x="-1.1" y="-4" width="2.2" height="12.5"/>
+        <rect x="-5" y="-2" width="10" height="2.2"/>
+        <rect x="-3.6" y="2" width="7.2" height="2.2"/>
+      </g>
+    </symbol>
+
+    <!-- Icon definitions -->
+    <symbol id="ico-map" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></symbol>
+    <symbol id="ico-photo" viewBox="0 0 24 24"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></symbol>
+    <symbol id="ico-wiki" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-.34.03-.67.08-1H7v1c0 1.1.9 2 2 2v3.06c-1.79-.95-3-2.85-3-5.06 0-3.31 2.69-6 6-6s6 2.69 6 6c0 1.66-.68 3.16-1.76 4.24L14 13v3.94c-.63.32-1.32.06-2 .06z"/></symbol>
+    <symbol id="ico-search" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+    <symbol id="ico-glass" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+  </defs>
+</svg>
+
+<div class="page">
+  <header class="top">
+    <div>
+      <h1>Arena <span class="accent">Reference Guide</span></h1>
+      <p class="subtitle">Tipsport liga & Tipos SHL 2025/26 · 24 ice rinks</p>
+    </div>
+    <div class="toolbar-search">
+      <svg><use href="#ico-search"/></svg>
+      <input type="text" id="searchInput" placeholder="Search arena, city, club..." />
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button class="filter-btn active" data-filter="all">All <span class="count" id="cnt-all">24</span></button>
+    <button class="filter-btn" data-filter="tipsport">Tipsport liga <span class="count">12</span></button>
+    <button class="filter-btn" data-filter="shl">Tipos SHL <span class="count">12</span></button>
+  </div>
+
+  <section class="camera-summary" id="cameraSummary">
+    <div class="summary-header">
+      <span class="summary-title">Camera totals</span>
+      <span class="summary-subtitle">across all 24 arenas · live count</span>
+    </div>
+    <div class="summary-chips" id="summaryChips">
+      <div class="summary-chip" data-type="S-Line Wide"><span class="chip-dot dot-s-wide"></span><span class="chip-name">S-Line Wide</span><span class="chip-count">0</span></div>
+      <div class="summary-chip" data-type="D-Line"><span class="chip-dot dot-d-line"></span><span class="chip-name">D-Line</span><span class="chip-count">0</span></div>
+      <div class="summary-chip" data-type="V-Line Point Speed"><span class="chip-dot dot-vlinep"></span><span class="chip-name">V-Line Point Speed</span><span class="chip-count">0</span></div>
+      <div class="summary-chip" data-type="S-Line Point"><span class="chip-dot dot-s-point"></span><span class="chip-name">S-Line Point</span><span class="chip-count">0</span></div>
+      <div class="summary-chip" data-type="Micro X1"><span class="chip-dot dot-micro"></span><span class="chip-name">Micro X1</span><span class="chip-count">0</span></div>
+    </div>
+  </section>
+
+  <div class="tip">
+    <strong>Camera placement tip:</strong> In Google Maps Photos, look for shots from the stands
+    opposite the ice (central view), from corner seats, from above the goals, and from behind the nets.
+    For recent shots click "Photos (1y)" — this filters images from the last year.
+    The Wikipedia link opens the Slovak article, or a search if no specific article exists.
+  </div>
+
+  <div class="grid" id="arenaGrid"></div>
+
+  <footer class="bottom">
+    <strong>How to use:</strong> Click any link in an arena card — all open in a new tab.
+    Google Maps has a "Photos" section in the left panel with dozens of fan photos (often including 360°).
+    The image search query is pre-set for each arena with keywords for interior / ice surface.
+    <br><br>
+    <strong>For camera planning:</strong> Spiideo Camera Systems are typically installed at
+    (1) center above the ice for full-pitch coverage, (2) hall corners for data and tracking,
+    (3) behind the goals for review. When reviewing photos, look at: ceiling height, central stand
+    availability, obstructions (skylights, scoreboard, rigging), and the structure behind the goals
+    (netting, plexiglass, booths).
+  </footer>
+</div>
+
+<script>
+// ============================================================
+// ARENA DATA — 12 Tipsport liga + 12 Tipos SHL
+// ============================================================
+const arenas = [
+  // ---------- Tipsport liga (12) ----------
+  { tier:"tipsport", name:"Aréna Ondreja Nepelu",          city:"Bratislava",         addr:"Odbojárov 9",              cap:"10 055",  team:"HC Slovan Bratislava",         lat:48.16205, lng:17.13731, wiki:"Zimný_štadión_Ondreja_Nepelu", official:"https://www.hcslovan.sk" },
+  { tier:"tipsport", name:"Steel Aréna",                    city:"Košice",             addr:"Nerudova 12",              cap:"8 347",   team:"HC Košice",                    lat:48.72342, lng:21.26108, wiki:"Steel_Aréna",                 official:"https://www.hckosice.sk" },
+  { tier:"tipsport", name:"Zimný štadión mesta Poprad",     city:"Poprad",             addr:"Štefánikova 890/46",       cap:"4 500",   team:"HK Poprad",                    lat:49.06058, lng:20.31118, wiki:"Zimný_štadión_mesta_Poprad",  official:"https://www.hkpoprad.sk" },
+  { tier:"tipsport", name:"Spiš Aréna",                     city:"Spišská Nová Ves",   addr:"T. Vansovej 1",            cap:"5 458",   team:"HK Spišská Nová Ves",          lat:48.94680, lng:20.56182, wiki:"Spiš_Aréna",                  official:"https://www.hksnv.sk" },
+  { tier:"tipsport", name:"Zimný štadión Michalovce",       city:"Michalovce",         addr:"Športová 1",               cap:"4 000",   team:"HK Dukla Michalovce",          lat:48.75494, lng:21.91812, wiki:"Zimný_štadión_v_Michalovciach", official:"https://www.hkmichalovce.sk" },
+  { tier:"tipsport", name:"TITAN Aréna (ZŠ Liptovský Mikuláš)", city:"Liptovský Mikuláš", addr:"Partizánov 14",        cap:"3 680",   team:"MHk 32 Liptovský Mikuláš",     lat:49.08321, lng:19.61326, wiki:"Zimný_štadión_v_Liptovskom_Mikuláši", official:"https://mhk32.sk" },
+  { tier:"tipsport", name:"ICE Aréna Prešov",               city:"Prešov",             addr:"Pod Kalváriou 50",         cap:"6 575",   team:"HC Prešov",                    lat:48.99325, lng:21.24176, wiki:"Zimný_štadión_v_Prešove",     official:"https://www.hcpresov.sk" },
+  { tier:"tipsport", name:"Nitra Aréna",                    city:"Nitra",              addr:"Jesenského 2",             cap:"3 600",   team:"HK Nitra",                     lat:48.31070, lng:18.09462, wiki:"Nitra_Aréna",                 official:"https://www.hknitra.sk" },
+  { tier:"tipsport", name:"Zimný štadión Pavla Demitru",    city:"Trenčín",            addr:"Považská 34",              cap:"6 150",   team:"HK Dukla Trenčín",             lat:48.89181, lng:18.04282, wiki:"Zimný_štadión_Pavla_Demitru", official:"https://www.dukla.sk" },
+  { tier:"tipsport", name:"Zimný štadión Zvolen",           city:"Zvolen",             addr:"Pod Dráhami 21",           cap:"6 300",   team:"HKM Zvolen",                   lat:48.57510, lng:19.12815, wiki:"Zimný_štadión_vo_Zvolene",    official:"https://www.hkmzvolen.sk" },
+  { tier:"tipsport", name:"Zimný štadión Banská Bystrica",  city:"Banská Bystrica",    addr:"Hronské predmestie 4",     cap:"2 841",   team:"HC '05 Banská Bystrica",       lat:48.73891, lng:19.15348, wiki:"Zimný_štadión_v_Banskej_Bystrici", official:"https://www.hcbb.sk" },
+  { tier:"tipsport", name:"Garmin Arena (ZŠ Žilina)",       city:"Žilina",             addr:"Športová 50",              cap:"6 200",   team:"MsHK Žilina",                  lat:49.22360, lng:18.73962, wiki:"Zimný_štadión_v_Žiline",      official:"https://www.mshkzilina.sk" },
+
+  // ---------- Tipos SHL (12) ----------
+  { tier:"shl", name:"Hant Arena Skalica",                  city:"Skalica",            addr:"Clementisova 50",          cap:"4 100",   team:"HK Skalica",                   lat:48.84540, lng:17.22270, wiki:"Hant_Arena",                  official:"https://hkskalica.sk" },
+  { tier:"shl", name:"Zimný štadión Žiar nad Hronom",       city:"Žiar nad Hronom",    addr:"A. Dubčeka",               cap:"2 150",   team:"HK Žiar nad Hronom",           lat:48.58950, lng:18.85130, wiki:"Zimný_štadión_v_Žiari_nad_Hronom", official:"https://www.hkmskziar.sk" },
+  { tier:"shl", name:"Zimný štadión Humenné",               city:"Humenné",            addr:"Chemlonská 8",             cap:"4 500",   team:"HC 19 Humenné",                lat:48.93810, lng:21.90870, wiki:"Zimný_štadión_v_Humennom",    official:"https://hc19.sk" },
+  { tier:"shl", name:"TOPVAR Aréna (ZŠ Topoľčany)",         city:"Topoľčany",          addr:"Puškinova 1",              cap:"3 350",   team:"HC Topoľčany",                 lat:48.56340, lng:18.17330, wiki:"Zimný_štadión_v_Topoľčanoch", official:"https://www.hctopolcany.sk" },
+  { tier:"shl", name:"Zimný štadión Martin",                city:"Martin",             addr:"Gorkého 2",                cap:"4 200",   team:"MHA Martin",                   lat:49.06540, lng:18.92260, wiki:"Zimný_štadión_v_Martine",     official:"https://www.mhamartin.sk" },
+  { tier:"shl", name:"Zimný štadión Trnava",                city:"Trnava",             addr:"Spartakovská 1",           cap:"3 200",   team:"HK Trnava",                    lat:48.37820, lng:17.59870, wiki:"Mestský_zimný_štadión_v_Trnave", official:"https://www.hktrnava.sk" },
+  { tier:"shl", name:"Zimný štadión Nové Zámky",            city:"Nové Zámky",         addr:"Športová 1",               cap:"1 980",   team:"HC Nové Zámky",                lat:47.98310, lng:18.17390, wiki:"Zimný_štadión_v_Nových_Zámkoch", official:"https://www.hcnovezamky.sk" },
+  { tier:"shl", name:"Zimný štadión Dubnica nad Váhom",     city:"Dubnica nad Váhom",  addr:"Športovcov 1",             cap:"3 300",   team:"HK Spartak Dubnica",           lat:48.95580, lng:18.17000, wiki:"Zimný_štadión_v_Dubnici_nad_Váhom", official:"https://www.spartakdubnica.sk" },
+  { tier:"shl", name:"Zimný štadión Detva",                 city:"Detva",              addr:"M. R. Štefánika 58",       cap:"1 500",   team:"HC 07 Detva",                  lat:48.55890, lng:19.41740, wiki:"Zimný_štadión_v_Detve",       official:"https://hcdetva.sk" },
+  { tier:"shl", name:"Zimný štadión Považská Bystrica",     city:"Považská Bystrica",  addr:"Športovcov 340",           cap:"1 300",   team:"HK '95 Považská Bystrica",     lat:49.12080, lng:18.44030, wiki:"Zimný_štadión_v_Považskej_Bystrici", official:"https://hk95.sk" },
+  { tier:"shl", name:"Zimný štadión Hamuliakovo",           city:"Hamuliakovo",        addr:"Hamuliakovo 555",          cap:"500",     team:"HC Hamuliakovo",               lat:48.05840, lng:17.29250, wiki:"",                            official:"" },
+  { tier:"shl", name:"Easton Aréna Piešťany",               city:"Piešťany",           addr:"Hlboká 92",                cap:"5 000",   team:"ŠHK 37 Piešťany",              lat:48.58820, lng:17.82660, wiki:"Zimný_štadión_v_Piešťanoch",  official:"https://shk37.sk" }
+];
+
+// ============================================================
+// CAMERA CONFIG — per tier
+// ============================================================
+const cameraConfig = {
+  tipsport: {
+    expected: 9,
+    positions: [
+      { name: "Sideline",          qty: 1, opts: ["S-Line Wide", "D-Line"],   defaultOpt: "S-Line Wide" },
+      { name: "Goal line",         qty: 2, fixed: "V-Line Point Speed" },
+      { name: "Behind goal right", qty: 1, opts: ["S-Line Point", "D-Line"],  defaultOpt: "S-Line Point" },
+      { name: "Behind goal left",  qty: 1, opts: ["S-Line Point", "D-Line"],  defaultOpt: "S-Line Point" },
+      { name: "High stick",        qty: 2, fixed: "Micro X1" },
+      { name: "Blue line",         qty: 2, fixed: "S-Line Point" }
+    ]
+  },
+  shl: {
+    expected: 3,
+    positions: [
+      { name: "Sideline",          qty: 1, opts: ["S-Line Wide", "D-Line"],   defaultOpt: "S-Line Wide" },
+      { name: "Goal line",         qty: 2, fixed: "V-Line Point Speed" }
+    ]
+  }
+};
+
+function renderCameraSection(tier, arenaIdx) {
+  const cfg = cameraConfig[tier];
+  const rows = cfg.positions.map((p, posIdx) => {
+    const typeHtml = p.opts
+      ? `<div class="cam-types">${p.opts.map(opt =>
+            `<button type="button" class="cam-pill ${opt === p.defaultOpt ? 'active' : ''}" data-type="${opt}">${opt}</button>`
+         ).join('')}</div>`
+      : `<span class="cam-fixed">${p.fixed}</span>`;
+    return `
+      <div class="cam-row" data-pos-idx="${posIdx}">
+        <span class="cam-pos">${p.name}</span>
+        <input type="number" class="cam-qty" min="0" max="6" value="${p.qty}" data-pos-idx="${posIdx}">
+        ${typeHtml}
+      </div>`;
+  }).join('');
+  return `
+    <section class="cameras" data-arena-idx="${arenaIdx}">
+      <div class="cameras-head">
+        <span class="cameras-title">Camera setup</span>
+        <span class="cameras-total ok">
+          <span class="total-num">${cfg.expected}</span> / ${cfg.expected} cameras
+        </span>
+      </div>
+      <div class="cameras-rows">${rows}</div>
+    </section>`;
+}
+
+function updateCamTotal(section) {
+  if (!section) return;
+  const qtys = section.querySelectorAll('.cam-qty');
+  let total = 0;
+  qtys.forEach(q => total += parseInt(q.value || 0, 10));
+  const arenaEl = section.closest('.arena');
+  const tier = arenaEl.dataset.tier;
+  const expected = cameraConfig[tier].expected;
+  const totalEl = section.querySelector('.cameras-total');
+  totalEl.classList.toggle('ok',   total === expected);
+  totalEl.classList.toggle('warn', total !== expected);
+  totalEl.innerHTML = `<span class="total-num">${total}</span> / ${expected} cameras`;
+}
+
+// ============================================================
+// URL HELPERS
+// ============================================================
+function gmapsUrl(arena) {
+  // Search near the arena's coordinates so Google snaps to the right venue.
+  const q = encodeURIComponent(`${arena.name} ${arena.city}`);
+  return `https://www.google.com/maps/search/${q}/@${arena.lat},${arena.lng},17z`;
+}
+function photosRecentUrl(arena) {
+  // Image search with last-year filter
+  const q = encodeURIComponent(`${arena.name} ${arena.city} interior ice rink`);
+  return `https://www.google.com/search?q=${q}&tbm=isch&tbs=qdr:y`;
+}
+function photosAllUrl(arena) {
+  const q = encodeURIComponent(`"${arena.name}" interior ice rink`);
+  return `https://www.google.com/search?q=${q}&tbm=isch`;
+}
+function wikiUrl(arena) {
+  if (arena.wiki && arena.wiki.length > 0) {
+    return `https://sk.wikipedia.org/wiki/${arena.wiki}`;
+  }
+  // Fallback to search if no specific article slug known
+  const q = encodeURIComponent(`${arena.name} ${arena.city}`);
+  return `https://sk.wikipedia.org/w/index.php?search=${q}`;
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+const grid = document.getElementById('arenaGrid');
+
+function tierBadge(tier) {
+  if (tier === 'tipsport') {
+    return `<span class="arena-tier tipsport"><svg><use href="#logo-tipsport"/></svg>Tipsport liga</span>`;
+  } else {
+    return `<span class="arena-tier shl"><svg><use href="#logo-shl"/></svg>Tipos SHL</span>`;
+  }
+}
+
+function renderArena(a, idx) {
+  return `
+    <article class="arena" data-tier="${a.tier}" data-search="${(a.name+' '+a.city+' '+a.team).toLowerCase()}">
+      ${tierBadge(a.tier)}
+      <h2 class="arena-name">${a.name}</h2>
+      <p class="arena-city"><strong>${a.city}</strong></p>
+      <dl class="meta">
+        <dt>Club</dt><dd>${a.team}</dd>
+        <dt>Capacity</dt><dd>~${a.cap}</dd>
+        <dt>Address</dt><dd>${a.addr}</dd>
+      </dl>
+      ${renderCameraSection(a.tier, idx)}
+      <div class="links">
+        <a class="link-btn link-maps" href="${gmapsUrl(a)}" target="_blank" rel="noopener" title="Open Google Maps — Photos tab in the left panel">
+          <svg><use href="#ico-map"/></svg>
+          <span>Google Maps</span>
+        </a>
+        <a class="link-btn link-photos" href="${photosRecentUrl(a)}" target="_blank" rel="noopener" title="Google Images filtered to the last year">
+          <svg><use href="#ico-photo"/></svg>
+          <span>Photos <span class="lbl-sub">(1y)</span></span>
+        </a>
+        <a class="link-btn link-wiki" href="${wikiUrl(a)}" target="_blank" rel="noopener" title="${a.wiki ? 'Wikipedia article' : 'Wikipedia search'}">
+          <svg><use href="#ico-wiki"/></svg>
+          <span>Wikipedia</span>
+        </a>
+        <a class="link-btn link-search" href="${photosAllUrl(a)}" target="_blank" rel="noopener" title="Google Images, no time filter">
+          <svg><use href="#ico-glass"/></svg>
+          <span>Search all</span>
+        </a>
+      </div>
+    </article>
+  `;
+}
+
+grid.innerHTML = arenas.map((a, i) => renderArena(a, i)).join('');
+
+// ============================================================
+// GLOBAL CAMERA SUMMARY — total per camera type across all arenas
+// ============================================================
+function recalcSummary() {
+  const totals = {};
+  document.querySelectorAll('#arenaGrid .cam-row').forEach(row => {
+    const qtyInput = row.querySelector('.cam-qty');
+    const qty = parseInt(qtyInput.value || 0, 10);
+    if (!qty || qty <= 0) return;
+    const activePill = row.querySelector('.cam-pill.active');
+    const fixedSpan  = row.querySelector('.cam-fixed');
+    const type = activePill ? activePill.dataset.type
+              : fixedSpan  ? fixedSpan.textContent.trim()
+              : null;
+    if (!type) return;
+    totals[type] = (totals[type] || 0) + qty;
+  });
+  document.querySelectorAll('#summaryChips .summary-chip').forEach(chip => {
+    const type = chip.dataset.type;
+    const count = totals[type] || 0;
+    chip.querySelector('.chip-count').textContent = count;
+    chip.dataset.zero = (count === 0) ? 'true' : 'false';
+  });
+}
+
+// Initial calculation after render
+recalcSummary();
+
+// ============================================================
+// CAMERA INTERACTIONS — event delegation on grid
+// ============================================================
+grid.addEventListener('click', (e) => {
+  const pill = e.target.closest('.cam-pill');
+  if (pill) {
+    const row = pill.closest('.cam-row');
+    row.querySelectorAll('.cam-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    recalcSummary();
+  }
+});
+grid.addEventListener('input', (e) => {
+  if (e.target.classList.contains('cam-qty')) {
+    const section = e.target.closest('.cameras');
+    updateCamTotal(section);
+    recalcSummary();
+  }
+});
+
+// ============================================================
+// FILTER & SEARCH
+// ============================================================
+let activeFilter = 'all';
+const searchInput = document.getElementById('searchInput');
+
+function applyFilters() {
+  const q = searchInput.value.trim().toLowerCase();
+  const items = grid.querySelectorAll('.arena');
+  let visible = 0;
+  items.forEach(el => {
+    const tier = el.dataset.tier;
+    const haystack = el.dataset.search;
+    const matchesTier = (activeFilter === 'all') || (activeFilter === tier);
+    const matchesQuery = !q || haystack.includes(q);
+    if (matchesTier && matchesQuery) {
+      el.classList.remove('hidden');
+      visible++;
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+  // empty state
+  let empty = grid.querySelector('.empty-state');
+  if (visible === 0) {
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.textContent = 'No arenas match the filter.';
+      grid.appendChild(empty);
+    }
+  } else if (empty) {
+    empty.remove();
+  }
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    applyFilters();
+  });
+});
+searchInput.addEventListener('input', applyFilters);
+</script>
+</body>
+</html>
